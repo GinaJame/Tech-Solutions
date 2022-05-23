@@ -1,0 +1,29 @@
+@import "../global.scss";
+
+
+/*Deprecated in favor of other colors, local ErrorMsg and SuccessMsg classes*/
+@mixin StatusMsg {
+
+
+  font-size: 1.8rem;
+  margin: 0 auto;
+  width: auto;
+
+  .ErrorMsg {
+    font-style: italic;
+    color: #f74f39;
+    margin-top: 10px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .SuccessMsg {
+    color: $mediumSpringGreen;
+    margin-top: 10px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+}

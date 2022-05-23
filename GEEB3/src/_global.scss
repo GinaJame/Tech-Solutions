@@ -1,0 +1,93 @@
+/*  
+
+Global styling  
+/* to use in your own scss, type: @import 'global'*/
+/* then, to access this file's styles: $varName*/
+
+// @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&display=swap");
+/*COLORS*/
+// $font: Poppins, Tahoma, Geneva, Verdana, sans-serif; //1 2.5 2      5.5
+//$font: "Rubik", sans-serif;//2 2 2.5   6.5
+//$font: "Roboto Condensed", sans-serif; //1.5 1.5 2         5
+//$font: "Roboto Slab", serif; //1 1.5 1.81               4.31
+//$font: "Roboto", sans-serif; //2.3 1.5 2.5              6.3
+//$font: "Ubuntu", sans-serif; //2.5 2.5 3               8
+
+/* COLORS */
+$font: "Mulish", sans-serif;
+$orangeAccent: #e66d29;
+$blueAccent: #0091b1;
+$dark: #2c2c34;
+$darkGrey: #3d3d47;
+$clearGrey: #f0eded;
+$otherGrey: #62626b;
+
+$buttonBlue: #1d4f60;
+$notificationRed: #ed3434;
+
+$openGreen: rgb(73, 211, 130);
+$mediumSpringGreen: #00fa9a;
+
+$tagPurple: #ce30e8;
+$tagGreen: #6cc551;
+$tagYellow: #e89330;
+$tagRed: #e85130;
+$tagBlue: #00d1ff;
+$tagPink: #ff0080;
+
+///////////////////////
+$newHeader: #2c2c2c;
+$newBackground: #1d1d1d;
+$cardBgSp: #2c2c2c;
+
+$pCardOp: #81d4fa;
+$pCardSOT: #0288d1;
+$sCardOp: #b39ddb;
+$sCardOpT: #512da8;
+
+//P titulo y buton
+//S Labels Input Button (Tags, Skills)
+
+$pCardSp: #80cbc4;
+$pCardSpT: #004d40; //Changed to 900
+$sCardSp: #90caf9;
+$sCardSpT: #0d47a1; //Changed to 900
+
+$inputBg: #2c2c2c;
+$pLogin: #90caf9;
+$sLogin: #7fdeea;
+$sLoginT: #006064; /*FONTS*/
+
+////////////////////
+$background: #1d1d1d;
+$box: #2c2c2c;
+$primary: #90caf9;
+$primaryText: #0d47a1;
+$secundary: #80cbc4;
+$secundaryText: #004d40;
+
+body {
+  font-family: $font;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: $newBackground;
+  // background-image: url("./background6.png");
+}
+
+/*BUTTON STYLES*/
+/*Styles with % are placeholders, abstract styles that can be extended*/
+/* In your particular scss file, use @extend %className to pull in the properties of the class*/
+%gral-blue-button {
+  border: none;
+  background-color: $buttonBlue;
+  border-radius: 5px;
+  padding: 1em 2em;
+  text-align: center;
+}

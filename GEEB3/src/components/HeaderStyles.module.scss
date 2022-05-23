@@ -1,0 +1,160 @@
+@import "../global", "../GlobalStyles/Button.scss";
+
+.Wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 75px;
+  color: #fff;
+  background-color: $box;
+  margin: 0px;
+  justify-content: space-between;
+
+  //width: 99.9vw;
+}
+.Logo {
+  font-size: 25px;
+}
+
+.HomeLink {
+  color: white;
+  text-decoration: none;
+}
+
+.IconNameContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 30%;
+}
+
+.NavContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 70%;
+  height: 100%;
+}
+
+.NavLink {
+  color: azure;
+  text-decoration: none;
+  &:hover {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}
+
+.NavLinkIcon {
+
+  width: 50px;
+  height: 50px;
+  margin: 0 15px;
+  color: white;
+
+}
+
+.LogIn {
+  @include Button;
+  background-color: #fff;
+  color: $otherGrey;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.LogOut {
+  @include Button;
+  color: black;
+  font-weight: 600;
+  background-color: white;
+  border: 2px solid white;
+}
+
+.Icon {
+  height: 50px;
+  width: 50px;
+  margin: 0 30px;
+}
+
+.Profile {
+  height: 55px;
+  width: 55px;
+}
+.PageWrap {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 50%;
+}
+.Links {
+  color: azure;
+  text-decoration: none;
+  width: auto;
+  font-size: 20px;
+  text-align: center;
+
+  margin-left: 15px;
+  &:hover {
+    font-weight: 500;
+  }
+
+  &.Title {
+    color: $primary;
+    font-size: 38px;
+    font-weight: 500;
+  }
+}
+.Menu {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  background-color: $box;
+  display: flex;
+  flex-direction: column;
+
+  //padding: 5px;
+  z-index: 5;
+}
+
+.MenuIcon {
+  //margin-top: 25px;
+  height: 50px;
+  width: 50px;
+  justify-self: center;
+  margin: auto 15px auto 0;
+  //margin-left: 20px;
+  //margin-bottom: 25px;
+  //margin: 25px 35px 25px 20px;
+}
+
+.ClosingIcon {
+  margin: 25px 0 0 25px;
+  width: 30px;
+  height: 30px;
+}
+@media (max-width: 767px) {
+  .Links {
+    margin-bottom: 25px;
+    width: auto;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+}
+
+@media (max-width: 600px) {
+  .Logo {
+    display: none;
+  }
+
+  .Icon {
+    height: 50px;
+    width: 50px;
+    margin: 0 0 0 15px;
+  }
+
+  .Links {
+    margin-bottom: 25px;
+    width: auto;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+}

@@ -1,0 +1,166 @@
+@import "../global", "../GlobalStyles/Input.scss",
+  "../GlobalStyles/NewInput.scss", "../GlobalStyles/NewButton.scss",
+  "../GlobalStyles/Button.scss", "../GlobalStyles/StatusMsg.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.Wrapper {
+  padding: 50px;
+  //width: 100%;
+  max-width: 1024px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-family: $font;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.InfoContainer {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.InfoTitle {
+  margin-left: 30px;
+  font-size: 56px;
+  margin-top: 20px;
+  color: $pLogin;
+}
+.InfoSubtitle {
+  font-size: 18px;
+  color: $sLogin;
+  letter-spacing: 5px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.InputsTitle {
+  font-size: 35px;
+}
+
+.Bullet {
+  font-size: 20px;
+  margin: 20px 5px;
+  word-wrap: break-word;
+  max-width: 100%;
+  margin-left: 30px;
+}
+
+.InputsContainer {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.InputsLogin {
+  width: 100%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  margin: 25px 0 0 0;
+  //box-shadow: 0px 0px 20px rgb(24, 23, 23);
+  //box-shadow: 0px 0px 10px $orangeAccent inset, 0px 0px 40px rgb(24, 23, 23);
+}
+
+.InputLabelContainer {
+  @include InputLabelContainer;
+  width: 100%;
+}
+
+.Label {
+  @include Label;
+  color: $pLogin;
+}
+
+.Input {
+  @include NewInput;
+}
+
+.Button {
+  @include NewButton;
+
+  background-color: $pCardOp;
+  color: $sLoginT;
+  margin-top: 25px;
+}
+
+.NewUserContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.NewUserMessage {
+  font-size: 20px;
+  margin: 0 0 0 0;
+}
+
+.NewUserLink {
+  font-size: 25px;
+  margin: 20px 0 0 0;
+  color: $pLogin;
+  &:hover {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}
+.ErrorMsg {
+  color: #f74f39;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.8rem;
+}
+
+.StatusMsg {
+  @include StatusMsg;
+  &.Ok {
+    color: $mediumSpringGreen
+  }
+}
+
+@media (max-width: 767px) {
+  .InputsLogin {
+    padding: 0;
+  }
+  .Wrapper {
+    padding: 15px;
+  }
+  .InfoContainer {
+    width: 100%;
+  }
+
+  .InputsContainer {
+    width: 100%;
+  }
+
+  .InputsTitle {
+    margin: 20px 0 0 0;
+  }
+
+  .InfoTitle {
+    text-align: center;
+    font-size: 35px;
+  }
+
+  .Bullet {
+    text-align: center;
+  }
+
+  .Button {
+    margin: 25px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  // .Button {
+  //   width: 400px;
+  // }
+}

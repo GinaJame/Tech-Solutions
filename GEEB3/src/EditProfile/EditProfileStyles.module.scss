@@ -1,0 +1,307 @@
+@import "../global", "../GlobalStyles/Tag.scss", "../GlobalStyles/Button.scss",
+  "../GlobalStyles/Input.scss", "../GlobalStyles/Button.scss",
+  "../GlobalStyles/StatusMsg.scss", "../GlobalStyles/Link.scss",
+  "../GlobalStyles/NewInput.scss", "../GlobalStyles/NewButton.scss";
+
+.Wrapper {
+  display: flex;
+  padding: 25px;
+  width: 100%;
+  max-width: 1024px;
+  display: flex;
+  color: white;
+  font-family: $font;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  //border: 1px solid lavender;
+}
+
+.Titles {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: $primary;
+}
+
+.PageTitle {
+  font-family: $font;
+  margin-top: 25px;
+  font-size: 38px;
+  color: $secundary;
+  //margin-bottom: 10px;
+}
+
+.Box0 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.Box1 {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-right: 30px;
+  //border: 1px solid red;
+}
+
+.Box9 {
+  width: 100%;
+  display: flex;
+  //border: 1px solid fuchsia;
+  text-align: center;
+  justify-content: center;
+}
+
+.InputandLabelContainer {
+  display: flex;
+  flex-direction: column;
+
+  //border: 1px solid grey;
+}
+
+.MasteredTagContainer,
+.WantTagContainer,
+.LearningTagContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  //border: 1px solid lightblue;
+}
+
+.MasteredContainer,
+.LearningContainer,
+.WantContainer {
+  width: 33%;
+  height: 250px;
+
+  //border: 1px solid blue;
+}
+
+.AboutWrapper {
+  width: 50%;
+  height: auto;
+  //border: 1px solid whitesmoke;
+}
+.EducationWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding-right: 30px;
+  margin-bottom: 50px;
+
+  //border: 1px solid green;
+}
+.LinksWrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  //border: 1px solid salmon;
+}
+.LinkListContainer {
+  display: flex;
+  flex-direction: column;
+  //border: 1px solid royalblue;
+}
+
+.Link {
+  @include Link;
+}
+
+.Input {
+  @include NewInput;
+  margin: 15px 0;
+  max-width: 400px;
+}
+.InputSmall {
+  @include NewInput;
+  width: 250px;
+  max-width: 200px;
+  margin: 15px 0;
+}
+.Label {
+  @include Label;
+  font-size: 25px;
+  margin-bottom: 0;
+  color: $primary;
+  width: 100%;
+}
+
+.Button {
+  @include Button;
+  background-color: transparent;
+  border: 2px solid $primary;
+  color: $primary;
+
+  &.Large {
+    background-color: $secundary;
+    border: 1px solid transparent;
+    color: $secundaryText;
+    margin: 30px 0;
+  }
+}
+
+.ButtonTags {
+  @include Button;
+  width: 75px;
+  background-color: transparent;
+  border: 2px solid $primary;
+  color: $primary;
+}
+.TextArea {
+  @include NewInput;
+  height: 250px;
+  max-width: 400px;
+
+  // height: 80%;
+  // width: 80%;
+
+  // font-family: $font;
+  // border: 1px solid transparent;
+  // border-radius: 5px;
+  // background-color: $box;
+  // color: white;
+  // font-size: 18px;
+  // box-sizing: border-box;
+
+  // &:focus {
+  //   outline: none;
+  //   border: 2px solid $orangeAccent;
+  //   //background-color: #545463;
+  // }
+  // &::placeholder {
+  //   color: #ffffff60;
+  //   font-size: 18px;
+  // }
+}
+
+.Tag {
+  @include Tag;
+}
+.ImgOneContainer {
+  width: 50%;
+  padding-top: 38px;
+  margin-bottom: 50px;
+}
+.ImgOne {
+  width: 100%;
+}
+
+.ErrorMsg {
+  font-style: italic;
+  color: #f74f39;
+  margin-top: 10px;
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.SuccessMsg {
+  color: $mediumSpringGreen;
+  margin-top: 10px;
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.StatusMsg {
+  font-size: 1.8rem;
+  margin: 0 auto;
+  width: auto;
+
+  .ErrorMsg {
+    font-style: italic;
+    color: #f74f39;
+    margin-top: 10px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .SuccessMsg {
+    color: $mediumSpringGreen;
+    margin-top: 10px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 767px) {
+  .Box1 {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .Wrapper {
+    justify-content: center;
+  }
+  .AboutWrapper {
+    width: 100%;
+    height: 275px;
+    margin-bottom: 20px;
+  }
+
+  .TextArea {
+    width: 100%;
+    max-width: 717px;
+  }
+  .ImgOneContainer {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ImgOne {
+    max-width: 500px;
+  }
+
+  .EducationWrapper {
+    width: 100%;
+    padding-right: 0;
+    margin-top: 25px;
+  }
+
+  .LinksWrapper {
+    width: 100%;
+    padding: 0;
+  }
+
+  .MasteredContainer,
+  .LearningContainer,
+  .WantContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .Input {
+    margin: 15px 0 25px 0;
+    max-width: 700px;
+  }
+
+  .Label {
+    width: 250px;
+    //align-self: center;
+  }
+  .Button {
+    @include NewButton;
+    border: 2px solid $primary;
+    align-self: center;
+  }
+
+  .InputSmall {
+    @include NewInput;
+    margin: 15px auto;
+
+    // max-width: 250px;
+  }
+
+  .ButtonTags {
+    @include NewButton;
+    border: 2px solid $primary;
+    align-self: center;
+  }
+}

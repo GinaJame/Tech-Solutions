@@ -1,0 +1,31 @@
+@import "../global.scss";
+
+@mixin Button {
+  font-family: $font;
+  font-size: 18px;
+  height: 45px;
+  width: 100px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: $orangeAccent;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  line-height: 2em;
+  -webkit-appearance: none;
+
+  &.Large {
+    margin: 20px auto;
+    max-width: 400px;
+    min-width: 250px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    margin-top: 2px;
+  }
+
+}
