@@ -105,7 +105,7 @@ describe('User testing', () => {
               assert.equal(res.data.length, 2);
               assert.equal(res.status, 200);
             })
-            .catch((error) => console.log("error"));
+            .catch((error) => console.log(error));
             done();
         });
   
@@ -139,7 +139,7 @@ describe('User testing', () => {
               assert.equal(res.data.email, 'arqui@test');
               assert.equal(res.status, 200);
             })
-            .catch((error) => console.log("error"));
+            .catch((error) => console.log(error));
             done();
         });
         it('Status 400', (done) => {
@@ -156,7 +156,7 @@ describe('User testing', () => {
               .then((res) => {
                 assert.equal(res.status, 400);
               })
-              .catch((error) => console.log("error"));
+              .catch((error) => console.log(error));
               done();
           });
           it('Status 404', (done) => {
@@ -174,7 +174,7 @@ describe('User testing', () => {
               .then((res) => {
                 assert.equal(res.status, 404);
               })
-              .catch((error) => console.log("error"));
+              .catch((error) => console.log(error));
               done();
           });
   
@@ -207,7 +207,7 @@ describe('User testing', () => {
               assert.equal(res.data.username, 'ArquiTestUser');
               assert.equal(res.status, 200);
             })
-            .catch((error) => console.log("error"));
+            .catch((error) => console.log(error));
             done();
         });
         it('Status 400', (done) => {
@@ -224,7 +224,7 @@ describe('User testing', () => {
               .then((res) => {
                 assert.equal(res.status, 400);
               })
-              .catch((error) => console.log("error"));
+              .catch((error) => console.log(error));
               done();
           });
           it('Status 404', (done) => {
@@ -242,7 +242,7 @@ describe('User testing', () => {
               .then((res) => {
                 assert.equal(res.status, 404);
               })
-              .catch((error) => console.log("erro"));
+              .catch((error) => console.log(error));
               done();
           });
   
@@ -298,7 +298,7 @@ describe('User testing', () => {
                   );
                   assert.notEqual(userDeleted.status, 500);
                 })
-                .catch((error) => console.log("error"));
+                .catch((error) => console.log(error));
         });
       });
       
