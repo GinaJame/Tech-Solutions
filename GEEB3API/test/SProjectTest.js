@@ -1,84 +1,161 @@
 var assert = require('assert');
 const User = require('../models/user');
-const axios = require('axios');
-const Sproject = require('../models/sproject');
+const SProject = require('../models/sproject');
+const sproject = require('../models/sproject');
+const axios = require('axios').default;
 
-describe('get all O-projects of a new user with new oprojects', function () {
-  describe('create a new User', function () {
-    it('should create a new user to add to it new OProjects', async function () {
-      const newUser = new User({
-        username: 'testUser',
-        email: 'test@Arq.com',
-        password: 'testPassword',
-      });
-      try {
-        const userRegisered = await axios.post(
-          'http://localhost:3010' + '/users/register',
-          newUser,
-        );
-        console.log('Registered: ', userRegisered);
-        // get the auth-token created by the backend
-        assert.notEqual(userRegisered.status, 500);
-      } catch (e) {
-        console.log(e);
-      }
-    });
-  });
-  describe('create new sprojects', function () {
-    it('should create new sprojects into the new user', async function () {
-      const SProject = new Sproject({
-        title: 'Test SProject',
-        description: 'Test SProject Description',
-        userid: userId,
+const base_url = 'http://localhost:3010/sprojects';
+
+describe.only('Show-Project', () => {
+  describe('POST SProject /create', () => {
+    it('Status 200', (done) => {
+      const userToken = '01'; // TODO: Get user token or set a test user token
+      let headers = {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      };
+      const sproject = {
+        title: 'Test Project',
+        description: 'A test project',
         links: [],
-        imageurls: [],
         tags: [],
-      });
-      try {
-        const newSProject = await axios.post(
-          'http://localhost:3010/sprojects/create',
-          SProject,
-          {
-            headers: {
-              'auth-token':
-                authToken /* get the auth-token generated with the user created*/,
-            },
-          },
-        );
-        console.log('New SProject: ', newSProject);
-        assert.notEqual(newSProject.status, 500);
-      } catch (e) {
-        console.log(e);
-      }
+        imageurls: [],
+      };
+
+      axios
+        .post(base_url + '/create', {
+          headers,
+          body: sproject,
+        })
+        .then((res) => {
+          assert.equal(res.statusCode, 200);
+          done();
+        })
+        .catch((error) => done(error));
+    });
+
+    it('Status 401', function () {
+      let headers = {
+        'content-type': 'application/json',
+      };
+      const sproject = {
+        title: 'Test Project',
+        description: 'A test project',
+        links: [],
+        tags: [],
+        imageurls: [],
+      };
+
+      axios
+        .post(base_url + '/create', {
+          headers,
+          body: sproject,
+        })
+        .then((res) => {
+          assert.equal(res.statusCode, 401);
+          done();
+        })
+        .catch((error) => done(error));
     });
   });
-  describe('get sprojects by user', function () {
-    it('should get all the sprojects linked to the new user created', async function () {
-      try {
-        const sProjects = await axios.get(
-          'http://localhost:3010/sprojects/' +
-            userId /* get the userId generated with the user created*/,
-        );
-        console.log('SProjects: ', sProjects);
-        assert.notEqual(sProjects.status, 500);
-      } catch (e) {
-        console.log(e);
-      }
+
+  describe('POST SProject /delete/:id', () => {
+    beforeEach((done) => {
+      const data = {
+        title: 'Test Project',
+        description: 'A test project',
+        links: [],
+        tags: [],
+        imageurls: [],
+      };
+      const sproject = new SProject({ ...data });
+      sproject.save().then(() => done());
+      done();
+    });
+
+    it('Status 200', (done) => {
+      const userToken = '01'; // TODO: Get user token or set a test user token
+      let headers = {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      };
+
+      axios
+        .post(base_url + `/delete/${sproject._id}`, {
+          headers,
+          body: sproject,
+        })
+        .then((res) => {
+          assert.equal(res.statusCode, 200);
+          done();
+        })
+        .catch((error) => done(error));
+    });
+
+    it('Status 401', function () {
+      let headers = {
+        'content-type': 'application/json',
+      };
+
+      axios
+        .post(base_url + `/delete/${sproject._id}`, {
+          headers,
+          body: sproject,
+        })
+        .then((res) => {
+          assert.equal(res.statusCode, 401);
+          done();
+        })
+        .catch((error) => done(error));
     });
   });
-  describe('delete user', function () {
-    it('should delete the new user created', function () {
-      try {
-        const userDeleted = axios.get(
-          'http://localhost:3010/users/delete' +
-            '/' +
-            userId /* get the userId generated with the user created*/,
-        );
-        console.log('User deleted: ', userDeleted);
-        assert.notEqual(userDeleted.status, 500);
-      } catch (e) {
-        console.log(e);
-      }
+
+  describe('GET SProject /:id', () => {
+    beforeEach((done) => {
+      const data = {
+        title: 'Test Project',
+        description: 'A test project',
+        links: [],
+        tags: [],
+        imageurls: [],
+      };
+      const sproject = new SProject({ ...data });
+      sproject.save().then(() => done());
+      done();
+    });
+
+    it('Status 200', (done) => {
+      const userToken = '01'; // TODO: Get user token or set a test user token
+      let headers = {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      };
+
+      axios
+        .get(base_url + `/${sproject._id}`, {
+          headers,
+        })
+        .then((res) => {
+          assert.equal(res.statusCode, 200);
+          done();
+        })
+        .catch((error) => done(error));
+    });
+
+    it('Status 401', function () {
+      let headers = {
+        'content-type': 'application/json',
+      };
+
+      axios
+        .get(base_url + `/${sproject._id}`, {
+          headers,
+        })
+        .then((res) => {
+          assert.equal(res.statusCode, 401);
+          done();
+        })
+        .catch((error) => done(error));
     });
   });
 });
