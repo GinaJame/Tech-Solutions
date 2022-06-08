@@ -3,13 +3,13 @@ const app = require('../app');
 const assert = require('assert');
 const mongoose = require('mongoose');
 const request = require('request');
-const baseURL = 'http://localhost:3010/sprojects/';
-const Sproject = require("../models/sproject");
+const baseURL = 'http://localhost:3010/sprojects';
+const SProject = require("../models/sproject");
 require("dotenv").config(); 
+const axios = require('axios').default;
 
 
-
-describe('SProject testing', () => {
+describe('User testing', () => {
 
     // describe('/POST user /users/register', () => {
     //     it('should create a new user and return a status 200', (done) => {
@@ -50,24 +50,57 @@ describe('SProject testing', () => {
     //         }
     //     )});
     // });
-    describe('Get all sProject', function(){
-        it('Gets all sProject from mongo', (done) => {
-            request.get(baseURL, (error, response, body) => {
-                if(error) console.log("Error in get ssprojects", error);
-                let projects_num = JSON.parse(body).length;
-                //console.log(response)
-                assert.equal(projects_num, 0);
-                done();
+    describe('GET SProject /', function(){
+        beforeEach((done) => {
+          const data1 = {
+            title: 'Test Project 1',
+            description: 'A test open project',
+            highlights: [],
+            tags: [],
+            skills: [],
+            desirables: [],
+          };
+          const data2 = {
+            title: 'Test Project 2',
+            description: 'A test open project',
+            highlights: [],
+            tags: [],
+            skills: [],
+            desirables: [],
+          };
+          const sproject1 = new SProject({ ...data1 });
+          const sproject2 = new SProject({ ...data2 });
+          sproject1.save();
+          sproject2.save();
+          done();
+        });
+    
+        it('Status 200', (done) => {
+          const userToken = '01'; // TODO: Get user token or set a test user token
+          let headers = {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${userToken}`,
+          };
+    
+          axios
+            .get(baseURL, {
+              headers,
             })
-        })
-    });
+            .then((res) => {
+              assert.equal(res.data.length, 2);
+              assert.equal(res.status, 200);
+            })
+            .catch((error) => console.log(error));
+            done();
+        });
+  
+      });
 
-    describe('/GET sproject /sprojects/:id', () => {
+    describe('GET sproject /sprojects/:id', () => {
         it('should get a sproject and return a status 200', (done) => {
             const userId = '603dbd54383aca0c1cb5273d'
-            request.get(baseURL + userId, (error, response, body) => {
+            request.get(baseURL +"/"+ userId, (error, response, body) => {
                 if(error) console.log("Error in get sproject", error);
-                console.log(JSON.parse(body));
                 assert.equal(response.statusCode, 200);
                 done();
             });
@@ -86,5 +119,156 @@ describe('SProject testing', () => {
     //         })
     //     });
     // });
+    describe('POST SProject /create', () => {
+        it('Status 200', (done) => {
+          const userToken = '01'; // TODO: Get user token or set a test user token
+          let headers = {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${userToken}`,
+          };
+          const sproject = {
+            title: 'Test Project',
+            description: 'A test project',
+            links: [],
+            tags: [],
+            imageurls: [],
+          };
+    
+          axios
+            .post(baseURL + '/create', {
+              headers,
+              body: sproject,
+            })
+            .then((res) => {
+              assert.equal(res.statusCode, 200);
+              console.log("SProject created");
+            })
+            .catch((error) => done(error));
+            done();
+        });
+    
+        it('Status 401', function () {
+          let headers = {
+            'content-type': 'application/json',
+          };
+          const sproject = {
+            title: 'Test Project',
+            description: 'A test project',
+            links: [],
+            tags: [],
+            imageurls: [],
+          };
+    
+          axios
+            .post(baseURL + '/create', {
+              headers,
+              body: sproject,
+            })
+            .then((res) => {
+              assert.equal(res.statusCode, 401);
+              done();
+            })
+            .catch((error) => done(error));
+        });
+      });
+    
+      describe('POST SProject /delete/:id', () => {
+        beforeEach((done) => {
+          const data = {
+            title: 'Test Project',
+            description: 'A test project',
+            links: [],
+            tags: [],
+            imageurls: [],
+          };
+          const sproject = new SProject({ ...data });
+          sproject.save().then(() =>console.log("Project saved") );
+          done();
+        });
+    
+        it('Status 200', (done) => {
+          const userToken = '01'; // TODO: Get user token or set a test user token
+          let headers = {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${userToken}`,
+          };
+    
+          axios
+            .post(baseURL + `/delete/${sproject._id}`, {
+              headers,
+              body: sproject,
+            })
+            .then((res) => {
+              assert.equal(res.statusCode, 200);
+              done();
+            })
+            .catch((error) => done(error));
+        });
+    
+        it('Status 401', function () {
+          let headers = {
+            'content-type': 'application/json',
+          };
+    
+          axios
+            .post(baseURL + `/delete/${sproject._id}`, {
+              headers,
+              body: sproject,
+            })
+            .then((res) => {
+              assert.equal(res.statusCode, 401);
+              done();
+            })
+            .catch((error) => done(error));
+        });
+      });
+    
+      describe('GET SProject /:id', () => {
+        beforeEach((done) => {
+          const data = {
+            title: 'Test Project',
+            description: 'A test project',
+            links: [],
+            tags: [],
+            imageurls: [],
+          };
+          const sproject = new SProject({ ...data });
+          sproject.save().then(() => done());
+        });
+    
+        it('Status 200', (done) => {
+          const userToken = '01'; // TODO: Get user token or set a test user token
+          let headers = {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${userToken}`,
+          };
+    
+          axios
+            .get(baseURL + `/${sproject._id}`, {
+              headers,
+            })
+            .then((res) => {
+              assert.equal(res.statusCode, 200);
+              done();
+            })
+            .catch((error) => done(error));
+        });
+    
+        it('Status 401', function () {
+          let headers = {
+            'content-type': 'application/json',
+          };
+    
+          axios
+            .get(baseURL + `/${sproject._id}`, {
+              headers,
+            })
+            .then((res) => {
+              assert.equal(res.statusCode, 401);
+              done();
+            })
+            .catch((error) => done(error));
+        });
+      });
 });
 

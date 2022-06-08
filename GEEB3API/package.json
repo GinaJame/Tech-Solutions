@@ -24,7 +24,7 @@
   "scripts": {
     "start": "nodemon ./app.js",
     "debugstart": "SET DEBUG=local-library:* & npm run start",
-    "test": "mocha"
+    "test": "mocha --recursive --exit"
   },
   "repository": {
     "type": "git",
