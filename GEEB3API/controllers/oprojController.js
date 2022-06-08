@@ -1,11 +1,11 @@
-const Oproject = require("../models/oproject");
-const Tag = require("../models/tag");
-const Skill = require("../models/skill");
-const async = require("async");
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const ObjectID = require("mongoose").mongo.ObjectID;
-require("dotenv").config();
+const Oproject = require('../models/oproject');
+const Tag = require('../models/tag');
+const Skill = require('../models/skill');
+const async = require('async');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const ObjectID = require('mongoose').mongo.ObjectID;
+require('dotenv').config();
 
 let secret = process.env.TOKENSECRET;
 
@@ -43,7 +43,7 @@ exports.create = function (req, res) {
     desirables,
   });
 
-  console.log("New Project: \n" + oproject);
+  console.log('New Project: \n' + oproject);
 
   oproject.save().then((newDoc) => {
     // For every Skill & Tag, if not existing create new, else add the projectId reference.
@@ -66,7 +66,7 @@ exports.create = function (req, res) {
             } else {
               // update Mongoose tags oprojects
               console.log(tag);
-              console.log("New doc id:" + newDoc._id);
+              console.log('New doc id:' + newDoc._id);
               tag.oprojects.push(newDoc._id);
               tag.save(callback);
             }
@@ -91,7 +91,7 @@ exports.create = function (req, res) {
             } else {
               // update Mongoose skill's oprojects
               console.log(skill);
-              console.log("New doc id:" + newDoc._id);
+              console.log('New doc id:' + newDoc._id);
               skill.oprojects.push(newDoc._id);
               skill.save(callback);
             }
@@ -100,73 +100,75 @@ exports.create = function (req, res) {
         },
       },
       function (err, results) {
-        console.log("Callback running");
+        console.log('Callback running');
         // objeto con atributos tags, skills, que incluyen los resultados
         if (err) {
-          res.status(500).json("Error" + err);
+          res.status(500).json('Error' + err);
         }
-        console.log("Callback finished succesfully");
+        console.log('Callback finished succesfully');
         console.log("New doc's id:", newDoc._id);
         res.json(newDoc._id);
         //res.send("Created succesfully: " + results);
-      }
+      },
     );
   });
 };
 
 exports.getAll = function (req, res) {
   Oproject.find()
-    .populate("userid")
+    .populate('userid')
     .then((projects) => res.json(projects))
-    .catch((err) => res.status(500).json("Error: " + err));
+    .catch((err) => res.status(500).json('Error: ' + err));
 };
 
 exports.update = function (req, res) {
-  res.send("Updating a project..." + req.params.id);
+  res.send('Updating a project...' + req.params.id);
 };
 
 exports.delete = function (req, res) {
-  console.log("Deleting by id: " + req.params.id);
+  console.log('Deleting by id: ' + req.params.id);
 
   Oproject.findOneAndDelete({ _id: req.params.id })
     .then((deletedDoc) => {
-      res.send("Deleted succesfully: " + deletedDoc);
+      res.send('Deleted succesfully: ' + deletedDoc);
     })
     .catch((err) => {
-      res.status(500).json("Error:" + err);
+      res.status(500).json('Error:' + err);
+      g;
     });
 };
 
 exports.deleteAll = function (req, res) {
-  Oproject.deleteMany({ status: "Open" })
+  Oproject.deleteMany({ status: 'Open' })
     .then(function () {
-      res.send("Data deleted"); // Success
+      res.send('Data deleted'); // Success
     })
     .catch(function (error) {
       res.send(error); // Failure
     });
 };
 
-
 // LEGACY --- DO **NOT** USE
 exports.getOne = function (req, res) {
-  const token = req.header("auth-token");
-  Oproject.findById(req.params.id).populate('userid')
+  const token = req.header('auth-token');
+  Oproject.findById(req.params.id)
+    .populate('userid')
     .then((oproject) => {
-      console.log("Fetching oproject:");
-      console.dir(oproject);
+      // console.log("Fetching oproject:");
+      // console.dir(oproject);
       let visitorIsOwner = false;
-      if (token !== "null") {
+      if (token !== 'null') {
         try {
           const verified = jwt.verify(token, secret);
-          console.log("JWT verified data:");
+          console.log('JWT verified data:');
           console.log(verified);
           let visitor = new ObjectID(verified.userId);
           if (oproject.userid.equals(visitor)) {
             visitorIsOwner = true;
           }
         } catch (err) {
-          console.log("Bad token: " + err);
+          console.log('Bad token: ' + err);
+          res.status(401);
         }
       }
       const response = {
@@ -175,20 +177,20 @@ exports.getOne = function (req, res) {
       };
       res.json(response); //in the front-end we must access response.data
     })
-    .catch((err) => res.status(500).json("Error: " + err));
+    .catch((err) => res.status(500).json('Error: ' + err));
 };
 
 exports.getByUser = function (req, res) {
   // works well
   Oproject.find({ userid: mongoose.Types.ObjectId(req.params.userid) })
     .then((projects) => res.json(projects))
-    .catch((err) => res.status(500).json("Error" + err));
+    .catch((err) => res.status(500).json('Error' + err));
 };
 
 exports.getMine = function (req, res) {
   Oproject.find({ userid: mongoose.Types.ObjectId(req.user.userId) })
-    .populate("userid")
+    .populate('userid')
     .then((projects) => res.json(projects))
-    .catch((err) => res.status(500).json("Error" + err));
+    .catch((err) => res.status(500).json('Error' + err));
 };
 // Changed status errors to 500 'Internal Server Error'.

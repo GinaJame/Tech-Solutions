@@ -15,8 +15,8 @@ mongoose.connection
     console.warn('Error : ', error);
   });
 
-afterEach(() => {
-  mongoose.connection.collections.users.drop(() => {});
-  mongoose.connection.collections.oprojects.drop(() => {});
-  mongoose.connection.collections.sprojects.drop(() => {});
+afterEach(async function () {
+  await mongoose.connection.collections.users.drop(() => {});
+  await mongoose.connection.collections.oprojects.drop(() => {});
+  await mongoose.connection.collections.sprojects.drop(() => {});
 });
