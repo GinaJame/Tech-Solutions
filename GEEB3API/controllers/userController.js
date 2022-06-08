@@ -134,9 +134,9 @@ exports.register = async function (req, res) {
 
 
 exports.getEmailFromUsername = async function (req, res) {
-  console.log("Get Email From Username");
+  // console.log("Get Email From Username");
   const requestedUsername = req.params.username;
-  console.log("Request:", requestedUsername);
+  // console.log("Request:", requestedUsername);
   if (!requestedUsername) {
     res.status(400).json("No username in request body");
   }
@@ -252,5 +252,5 @@ exports._update = async function (req, res) {
 };
 
 exports.delete = function (req, res) {
-  res.status(501).json("Deleting a user..." + req.params.id);
+  res.status(501).json("Deleting a user..." + req.params.email);
 };

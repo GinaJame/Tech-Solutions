@@ -1,65 +1,85 @@
-var assert = require('assert');
-const User = require("../models/user");
-import axios from "axios";
+const User = require('../models/user');
+const app = require('../app');
+const assert = require('assert');
+const mongoose = require('mongoose');
+const request = require('request');
+const baseURL = 'http://localhost:3010';
 
-describe('get all O-projects of a new user with new oprojects', function () {
-    describe('create a new User', function () {
-      it('should create a new user to add to it new OProjects', async function () {
-          const newUser = new User({
-                username: "testUser",
-                email: "test@Arq.com",
-                password: "testPassword",
-          })
-          try{
-              const userRegisered = await axios.post("http://localhost:3010" + "/users/register", newUser);
-              console.log("Registered: ", userRegisered);
-              // get the auth-token created by the backend
-              assert.notEqual(userRegisered.status, 500);
-          }catch (e){
-              console.log(e);
-          }
-      });
+describe('OProject testing', () => {
+    beforeEach((done) => {
+        var mongoDB = 'mongodb+srv://geeb:geeb357@cluster0.dxgwa.mongodb.net/development01?retryWrites=true&w=majority'
+        mongoose.connect(mongoDB, { useNewUrlParser: true})
+
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'MongoDB Connection Error'));
+        db.once('open', () => {
+            console.log('Connection to mongoDB succesful');
+            done();
+        })
     });
-    describe('create new oprojects', function () {
-        it('should create new oprojects into the new user', async function () {
-            const Project = {
-                title: "Test OProject",
-                description: "Test OProject Description",
-                status: "Open",
-                tags: [],
-                highlights: [],
-                desirables: [],
-                skills: [],
-            };
-            try{
-                const newOProject = await axios.post("http://localhost:3010/oprojects/create", Project, { headers: {"auth-token": authToken /* get the auth-token generated with the user created*/,} });
-                console.log("New OProject: ", newOProject);
-                assert.notEqual(newOProject.status, 500);
-            }catch (e){
-                console.log(e);
-            }
+
+    // describe('/POST user /users/register', () => {
+    //     it('should create a new user and return a status 200', (done) => {
+    //         let headers = {
+    //             'Content-Type': 'application/json',
+    //         };
+    //         const newUser = '{"username": "ArquiTestUser", "email": "test@Arqui.com", "password": "testPassword"}';
+    //         request.post({
+    //             url: baseURL + '/users/register',
+    //             headers: headers,
+    //             body: newUser
+    //             },
+    //             (error, response, body) => {
+    //                 if(error) console.log("Error in register user", error);
+    //                 assert.equal(response.statusCode, 200);
+    //                 console.log(JSON.parse(body));
+    //                 done();
+    //             }
+    //         )});
+    // });
+
+
+    // describe('/POST oprojects /oprojects/create', () => {
+    //     it('should create a new oproject and return a status 200', (done) => {
+    //         let headers = {
+    //             'Content-Type': 'application/json',
+    //         };
+    //         const newOProject = '{"title": "Test OProject", "description": "Test OProject Description", "status": "Open", "tags": [], "highlights": [], "desirables": [], "skills": []}';
+    //         request.post({
+    //             url: baseURL + '/oprojects/create',
+    //             headers: headers,
+    //             body: newOProject
+    //         },
+    //         (error, response, body) => {
+    //             if(error) console.log("Error in create oproject", error);
+    //             assert.equal(response.statusCode, 200);
+    //             console.log(JSON.parse(body));
+    //             done();
+    //         });
+    //     });
+    // });
+
+    describe('/GET oprojects /oprojects/by/userId', () => {
+        it('should get all the oprojects linked to the new user created', (done) => {
+            const userId = '624734ba40ba680015d0e89a';
+            request.get(baseURL + '/oprojects/by/' + userId, (error, response, body) => {
+                if(error) console.log("Error in get oprojects", error);
+                assert.equal(response.statusCode, 200);
+                console.log(JSON.parse(body));
+                done();
+            });
         });
     });
-    describe('get oprojects by user', function () {
-        it('should get all the oprojects linked to the new user created', async function () {
-            try{
-                const oProjects = await axios.get("http://localhost:3010/oprojects/by" + "/" + userId /* get the userId generated with the user created*/);
-                console.log("OProjects: ", oProjects);
-                assert.notEqual(oProjects.status, 500);
-            }catch (e){
-                console.log(e);
-            }
-        });
-    });
-    describe('delete user', function () {
-        it('should delete the new user created', function () {
-            try{
-                const userDeleted = axios.get("http://localhost:3010/users/delete" + "/" + userId /* get the userId generated with the user created*/);
-                console.log("User deleted: ", userDeleted);
-                assert.notEqual(userDeleted.status, 500);
-            }catch (e){
-                console.log(e);
-            }
-        });
-    });
-})
+    
+    // describe('/GET user /users/delete/:id', function () {
+    //     it('should delete the new user created and return a status 200', function () {
+    //         let email = 'test@Arqui.com';
+    //         request.get(baseURL + '/delete/' + email, (error, response, body) => {
+    //             if(error) console.log("Error in delete user", error);
+    //             assert.equal(response.statusCode, 200);
+    //             console.log(JSON.parse(body));
+    //             done();
+    //         })
+    //     });
+    // });
+});
