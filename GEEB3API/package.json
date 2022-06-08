@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "nodemon ./app.js",
-    "debugstart": "SET DEBUG=local-library:* & npm run start", 
+    "debugstart": "SET DEBUG=local-library:* & npm run start",
     "test": "mocha"
   },
   "repository": {

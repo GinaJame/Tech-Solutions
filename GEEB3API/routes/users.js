@@ -14,6 +14,7 @@ router.get("/private", auth, (req, res) => {
 });
 
 router.post("/by-email", user.findByEmail);
+router.post("/by-username", user.findByUsername);
 
 router.post("/register", user.register);
 
