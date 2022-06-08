@@ -85,8 +85,7 @@ describe('User testing', () => {
           }
           const user1 = new User({ ...data1 });
           const user2 = new User({ ...data2 });
-          user1.save();
-          user2.save();
+          user1.save().then(() => { user2.save().then(() => console.log('Users saved')) });
           done();
         });
     
@@ -102,7 +101,7 @@ describe('User testing', () => {
               headers,
             })
             .then((res) => {
-              assert.equal(res.data.length, 2);
+              assert.equal(JSON.parse(res.data).length, 2);
               assert.equal(res.status, 200);
             })
             .catch((error) => console.log(error));
@@ -125,16 +124,11 @@ describe('User testing', () => {
     
         it('Status 200', (done) => {
           const userToken = '01'; // TODO: Get user token or set a test user token
-          let headers = {
-            'content-type': 'application/json',
-            Authorization: `Bearer ${userToken}`,
-          };
+
     
           axios
-            .get(baseURL + '/by-username' , {
-              headers,
-              body: {username: 'ArquiTestUser'}
-            })
+            .post(baseURL + '/by-username' ,  {username: 'ArquiTestUser'}
+            )
             .then((res) => {
               assert.equal(res.data.email, 'arqui@test');
               assert.equal(res.status, 200);
@@ -144,35 +138,12 @@ describe('User testing', () => {
         });
         it('Status 400', (done) => {
             const userToken = '01'; // TODO: Get user token or set a test user token
-            let headers = {
-              'content-type': 'application/json',
-              Authorization: `Bearer ${userToken}`,
-            };
+
       
             axios
-              .get(baseURL + '/by-email' , {
-                headers
-              })
+              .post(baseURL + '/by-username' )
               .then((res) => {
                 assert.equal(res.status, 400);
-              })
-              .catch((error) => console.log(error));
-              done();
-          });
-          it('Status 404', (done) => {
-            const userToken = '01'; // TODO: Get user token or set a test user token
-            let headers = {
-              'content-type': 'application/json',
-              Authorization: `Bearer ${userToken}`,
-            };
-      
-            axios
-              .get(baseURL + '/by-email' , {
-                headers,
-                body: {username: 'ArkiTestUser'}
-              })
-              .then((res) => {
-                assert.equal(res.status, 404);
               })
               .catch((error) => console.log(error));
               done();
@@ -193,16 +164,12 @@ describe('User testing', () => {
     
         it('Status 200', (done) => {
           const userToken = '01'; // TODO: Get user token or set a test user token
-          let headers = {
-            'content-type': 'application/json',
-            Authorization: `Bearer ${userToken}`,
-          };
+
     
           axios
-            .get(baseURL + '/by-email' , {
-              headers,
-              body: {email: 'arqui@test'}
-            })
+            .post(baseURL + '/by-email' , 
+            {email: 'arqui@test'}
+            )
             .then((res) => {
               assert.equal(res.data.username, 'ArquiTestUser');
               assert.equal(res.status, 200);
@@ -211,16 +178,9 @@ describe('User testing', () => {
             done();
         });
         it('Status 400', (done) => {
-            const userToken = '01'; // TODO: Get user token or set a test user token
-            let headers = {
-              'content-type': 'application/json',
-              Authorization: `Bearer ${userToken}`,
-            };
-      
+
             axios
-              .get(baseURL + '/by-email' , {
-                headers
-              })
+              .post(baseURL + '/by-email' )
               .then((res) => {
                 assert.equal(res.status, 400);
               })
@@ -228,17 +188,11 @@ describe('User testing', () => {
               done();
           });
           it('Status 404', (done) => {
-            const userToken = '01'; // TODO: Get user token or set a test user token
-            let headers = {
-              'content-type': 'application/json',
-              Authorization: `Bearer ${userToken}`,
-            };
       
             axios
-              .get(baseURL + '/by-email' , {
-                headers,
-                body: {email: 'arki@test'}
-              })
+              .post(baseURL + '/by-email' , 
+                {email: 'arki@test'}
+              )
               .then((res) => {
                 assert.equal(res.status, 404);
               })
@@ -265,43 +219,7 @@ describe('User testing', () => {
         });
       });
       
-      describe('GET users /delete', function () {
-        beforeEach((done) => {
-            const data = {
-              username: 'ArquiTestUser',
-              email: 'arqui@test'
-            };
-            const user = new User({ ...data });
-            user.save();
-            done();
-        });
-      
-        it('should delete the new user created', async function () {
-            const userToken = '01';
-            let headers = {
-                'content-type': 'application/json',
-                Authorization: `Bearer ${userToken}`,
-              };
-        
-              axios
-                .get(baseURL + '/by-email' , {
-                  headers,
-                  body: {email: 'arqui@test'}
-                })
-                .then((res) => {
-                  const userId = res.data._id;
-                  console.log(userId);
-                  const userDeleted = axios.get(
-                    'http://localhost:3010/users/delete' +
-                      '/' +
-                      userId /* get the userId generated with the user created*/,
-                  );
-                  assert.notEqual(userDeleted.status, 500);
-                })
-                .catch((error) => console.log(error));
-        });
-      });
-      
+
       describe('PUT users /update', function () {
         beforeEach((done) => {
             const data = {
@@ -313,9 +231,8 @@ describe('User testing', () => {
             done();
           });
         it('should update the new user created', async function () {
-            axios.get(baseURL + '/by-email' , {
-                body: {email: 'arqui@test'}
-                }) .then((res) => {
+            axios.post(baseURL + '/by-email' , {
+                email: 'arqui@test'}) .then((res) => {
                     const userUpdated = axios.put(
                     baseURL + '/update' +
                         '/' +
@@ -339,8 +256,8 @@ describe('User testing', () => {
         it('should get the email from the username', async function () {
 
             const email = axios.get(
-              baseURL + '/mail-query' +
-                'ArquiTestUser' /* get the userName generated with the user created*/,
+              baseURL + '/mail-query/ArquiTestUser'
+                 /* get the userName generated with the user created*/,
             ).then((res) => {
                 assert.equal(res.data.email, 'arqui@test');
             });

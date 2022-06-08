@@ -83,12 +83,11 @@ describe('User testing', () => {
           };
     
           axios
-            .get(baseURL, {
-              headers,
-            })
+            .get(baseURL)
             .then((res) => {
-              assert.equal(res.data.length, 2);
-              assert.equal(res.status, 200);
+                console.log("data", res.data.length);
+                assert.equal(res.data.length, 2);
+                assert.equal(res.status, 200);
             })
             .catch((error) => console.log(error));
             done();

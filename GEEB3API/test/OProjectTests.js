@@ -77,7 +77,7 @@ describe('OProject testing', () => {
           highlights: [],
           tags: [],
           skills: [],
-          desirables: [],
+          desirables: []
         };
         const oproject1 = new OProject({ ...data1 });
         const oproject2 = new OProject({ ...data2 });
@@ -87,16 +87,9 @@ describe('OProject testing', () => {
       });
   
       it('Status 200', (done) => {
-        const userToken = '01'; // TODO: Get user token or set a test user token
-        let headers = {
-          'content-type': 'application/json',
-          Authorization: `Bearer ${userToken}`,
-        };
-  
+
         axios
-          .get(baseURL, {
-            headers,
-          })
+          .get(baseURL)
           .then((res) => {
             assert.equal(res.data.length, 2);
             assert.equal(res.status, 200);
