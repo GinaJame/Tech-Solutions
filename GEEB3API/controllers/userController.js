@@ -36,9 +36,12 @@ exports.findByUsername = async function (req, res) {
 
   if (!username) {
     res.status(400).json("No username in request body");
+  } 
+  try {
+    const userDoc = await User.findOne({ username: username });
+  } catch (error) {
+    es.status(401).json(`User not found`)
   }
-
-  const userDoc = await User.find({ username: username });
 
   res.status(200).json(userDoc);
 }
@@ -134,9 +137,9 @@ exports.register = async function (req, res) {
 
 
 exports.getEmailFromUsername = async function (req, res) {
-  console.log("Get Email From Username");
+  // console.log("Get Email From Username");
   const requestedUsername = req.params.username;
-  console.log("Request:", requestedUsername);
+  // console.log("Request:", requestedUsername);
   if (!requestedUsername) {
     res.status(400).json("No username in request body");
   }
@@ -252,5 +255,5 @@ exports._update = async function (req, res) {
 };
 
 exports.delete = function (req, res) {
-  res.status(501).json("Deleting a user..." + req.params.id);
+  res.status(501).json("Deleting a user..." + req.params.email);
 };

@@ -13,7 +13,8 @@
     "express": "^4.17.1",
     "firebase-admin": "^9.11.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.9"
+    "mongoose": "^5.11.9",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "axios": "^0.27.2",
