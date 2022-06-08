@@ -1,65 +1,86 @@
-var assert = require('assert');
-const User = require("../models/user");
-import axios from "axios";
+const User = require('../models/user');
+const app = require('../app');
+const assert = require('assert');
+const mongoose = require('mongoose');
+const request = require('request');
+const baseURL = 'http://localhost:3010';
 const Sproject = require("../models/sproject");
 
-describe('get all O-projects of a new user with new oprojects', function () {
-    describe('create a new User', function () {
-      it('should create a new user to add to it new OProjects', async function () {
-          const newUser = new User({
-                username: "testUser",
-                email: "test@Arq.com",
-                password: "testPassword",
-          })
-          try{
-              const userRegisered = await axios.post("http://localhost:3010" + "/users/register", newUser);
-              console.log("Registered: ", userRegisered);
-              // get the auth-token created by the backend
-              assert.notEqual(userRegisered.status, 500);
-          }catch (e){
-              console.log(e);
-          }
-      });
+describe('SProject testing', () => {
+    beforeEach((done) => {
+        var mongoDB = 'mongodb+srv://geeb:geeb357@cluster0.dxgwa.mongodb.net/development01?retryWrites=true&w=majority'
+        mongoose.connect(mongoDB, { useNewUrlParser: true})
+
+        const db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'MongoDB Connection Error'));
+        db.once('open', () => {
+            console.log('Connection to mongoDB succesful');
+            done();
+        })
     });
-    describe('create new sprojects', function () {
-        it('should create new sprojects into the new user', async function () {
-            const SProject = new Sproject({
-                title: "Test SProject",
-                description: "Test SProject Description",
-                userid: userId,
-                links: [],
-                imageurls: [],
-                tags: [],
+
+    // describe('/POST user /users/register', () => {
+    //     it('should create a new user and return a status 200', (done) => {
+    //         let headers = {
+    //             'Content-Type': 'application/json',
+    //         };
+    //         const newUser = '{"username": "ArquiTestUser", "email": "test@Arqui.com", "password": "testPassword"}';
+    //         request.post({
+    //             url: baseURL + '/users/register',
+    //             headers: headers,
+    //             body: newUser
+    //             },
+    //             (error, response, body) => {
+    //                 if(error) console.log("Error in register user", error);
+    //                 assert.equal(response.statusCode, 200);
+    //                 console.log(JSON.parse(body));
+    //                 done();
+    //             }
+    //         )});
+    // });
+
+    // describe('/POST sproject /sprojects/create', () => {
+    //     it('should create a new sproject and return a status 200', (done) => {
+    //         let headers = {
+    //             'Content-Type': 'application/json',
+    //         };
+    //         const newSproject = '{"title": "ArquiTestSproject", "description": "Test description", "userId": "624734ba40ba680015d0e89a", "links": [], "imageurls": [], "tags": []}';
+    //         request.post({
+    //             url: baseURL + '/sprojects/create',
+    //             headers: headers,
+    //             body: newSproject
+    //         },
+    //         (error, response, body) => {
+    //             if(error) console.log("Error in create sproject", error);
+    //             assert.equal(response.statusCode, 200);
+    //             console.log(JSON.parse(body));
+    //             done();
+    //         }
+    //     )});
+    // });
+
+    describe('/GET sproject /sprojects/:id', () => {
+        it('should get a sproject and return a status 200', (done) => {
+            const userId = '603dbd54383aca0c1cb5273d'
+            request.get(baseURL + '/sprojects/' + userId, (error, response, body) => {
+                if(error) console.log("Error in get sproject", error);
+                console.log(JSON.parse(body));
+                assert.equal(response.statusCode, 200);
+                done();
             });
-            try{
-                const newSProject = await axios.post("http://localhost:3010/sprojects/create", SProject, { headers: {"auth-token": authToken /* get the auth-token generated with the user created*/,} });
-                console.log("New SProject: ", newSProject);
-                assert.notEqual(newSProject.status, 500);
-            }catch (e){
-                console.log(e);
-            }
         });
     });
-    describe('get sprojects by user', function () {
-        it('should get all the sprojects linked to the new user created', async function () {
-            try{
-                const sProjects = await axios.get("http://localhost:3010/sprojects/" + userId /* get the userId generated with the user created*/);
-                console.log("SProjects: ", sProjects);
-                assert.notEqual(sProjects.status, 500);
-            }catch (e){
-                console.log(e);
-            }
-        });
-    });
-    describe('delete user', function () {
-        it('should delete the new user created', function () {
-            try{
-                const userDeleted = axios.get("http://localhost:3010/users/delete" + "/" + userId /* get the userId generated with the user created*/);
-                console.log("User deleted: ", userDeleted);
-                assert.notEqual(userDeleted.status, 500);
-            }catch (e){
-                console.log(e);
-            }
-        });
-    });
-})
+
+    // describe('/GET user /users/delete/:id', function () {
+    //     it('should delete the new user created and return a status 200', function () {
+    //         let email = 'test@Arqui.com';
+    //         request.get(baseURL + '/delete/' + email, (error, response, body) => {
+    //             if(error) console.log("Error in delete user", error);
+    //             assert.equal(response.statusCode, 200);
+    //             console.log(JSON.parse(body));
+    //             done();
+    //         })
+    //     });
+    // });
+});
+
