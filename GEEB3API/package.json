@@ -13,7 +13,8 @@
     "express": "^4.17.1",
     "firebase-admin": "^9.11.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.9"
+    "mongoose": "^5.11.9",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "axios": "^0.27.2",
@@ -22,8 +23,8 @@
   },
   "scripts": {
     "start": "nodemon ./app.js",
-    "debugstart": "SET DEBUG=local-library:* & npm run start", 
-    "test": "mocha"
+    "debugstart": "SET DEBUG=local-library:* & npm run start",
+    "test": "mocha --recursive --exit --timeout 10000"
   },
   "repository": {
     "type": "git",
